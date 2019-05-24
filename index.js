@@ -7,7 +7,8 @@ module.exports = function safeEval (code, context, opts) {
   var clearContext = `
     (function() {
       Function = undefined;
-      const keys = Object.getOwnPropertyNames(this).concat(['constructor']);
+      let keys = Object.getOwnPropertyNames(this).concat(['constructor']);
+      keys = keys.filter((key) => key !== 'webkitStorageInfo')
       keys.forEach((key) => {
         const item = this[key];
         if (!item || typeof item.constructor !== 'function') return;
